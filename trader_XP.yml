@@ -1,0 +1,113 @@
+Trader_xp_Core:
+    type: world
+    debug: true
+    version: 1.02
+    author: cyborax
+    events:
+#---------------------------[ShopLogic]----------------------------------
+        on player clicks s_exp_32 in Trader_xp_m1:
+            - ^FLAG player shop_text:Erfahrungsfläschen
+            - ^FLAG player shop_item:EXP_BOTTLE32
+            - ^FLAG player shop_qty:32
+            - ^FLAG player shop_stackprice:true            
+            - ^inject s@Core_ShopLogic p:shop_xplogic
+            - determine cancelled
+        on player clicks s_exp_64 in Trader_xp_m1:
+            - ^FLAG player shop_text:Erfahrungsfläschen
+            - ^FLAG player shop_item:EXP_BOTTLE64
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true            
+            - ^inject s@Core_ShopLogic p:shop_xplogic
+            - determine cancelled
+        on player clicks s_bread_16 in Trader_xp_m1:
+            - ^FLAG player shop_text:Erfahrungsfläschen
+            - ^FLAG player shop_item:BREAD
+            - ^FLAG player shop_qty:16
+            - ^FLAG player shop_stackprice:true            
+            - ^inject s@Core_ShopLogic p:shop_xplogic
+            - determine cancelled
+        on player clicks s_book_effIV in Trader_xp_m1:
+            - ^FLAG player shop_text:Effizienz_IV
+            - ^FLAG player shop_item:book_effIV
+            - ^FLAG player shop_qty:1         
+            - ^inject s@Core_ShopLogic p:shop_xplogic
+            - determine cancelled
+        on player clicks x in Trader_xp_m1:
+            - ^determine cancelled
+        on player clicks BTN_Exit in Trader_xp_m1:
+            - ^playsound sound:HORSE_SADDLE <player.location>
+            - ^inventory close d:<context.inventory>
+            - ^determine cancelled    
+#---------------------------[ShopLogic]----------------------------------
+Trader_xp:
+    type: assignment
+    debug: false
+    interact scripts:
+    - 20 Trader_xp_0
+Trader_xp_0:
+   type: interact
+   Steps:
+       1:
+         Click Trigger:
+           Script:
+           - ^playsound sound:HORSE_SADDLE <player.location>
+           - ^inventory open d:in@Trader_xp_m1
+
+Trader_xp_m1: 
+  type: inventory 
+  inventory: CHEST
+  title: <&3>Holzhändler
+  size: 9
+  definitions:
+    item1: i@s_exp_32[quantity=32]
+    item2: i@s_exp_64[quantity=64]
+    item3: i@s_bread_16[quantity=16]
+    item4: i@s_book_effIV
+    Exit: i@BTN_Exit
+  slots:
+    - "[item1] [item2] [item3] [item4] [x] [x] [x] [x] [Exit]"
+
+s_exp_32:
+    type: item
+    material: EXP_BOTTLE
+    display name: <green>Erfahrungsfläschen
+    lore:
+    - <green>Kaufpreis: 15 XP-Level
+    - <gray>(für 32 Stück) 
+EXP_BOTTLE32:
+    type: item
+    material: EXP_BOTTLE
+    display name: Erfahrungsfläschen
+s_exp_64:
+    type: item
+    material: EXP_BOTTLE
+    display name: <green>Erfahrungsfläschen
+    lore:
+    - <green>Kaufpreis: 25 XP-Level
+    - <gray>(für 64 Stück) 
+EXP_BOTTLE64:
+    type: item
+    material: EXP_BOTTLE
+    display name: Erfahrungsfläschen
+s_bread_16:
+    type: item
+    material: BREAD
+    display name: Brot
+    lore:
+    - <green>Kaufpreis: 5 XP-Level
+    - <gray>(für 16 Stück) 
+s_book_effIV:
+    type: item
+    material: enchanted_book
+    display name: <aqua>Glück III
+    enchantments: 
+    - LOOT_BONUS_BLOCKS:3
+    lore:
+    - <green>Kaufpreis: 50 XP-Level
+    - <gray>(für 1 Stück)
+book_effIV:
+    type: item
+    display name: <yellow>Verzaubertes Buch
+    material: enchanted_book
+    enchantments: 
+    - LOOT_BONUS_BLOCKS:3

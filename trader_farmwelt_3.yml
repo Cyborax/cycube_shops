@@ -1,0 +1,154 @@
+Trader_Farmwelt3_Core:
+    type: world
+    debug: false
+    version: 1.02
+    author: cyborax
+    events:
+#---------------------------[Holz]----------------------------------
+        on player clicks s_log_0 in Trader_Farmwelt3_m1:
+            - ^FLAG player shop_text:Eichenholz
+            - ^FLAG player shop_item:log
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_log_1 in Trader_Farmwelt3_m1:
+            - ^FLAG player shop_text:Fichtenholz
+            - ^FLAG player shop_item:log1_1
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_log_2 in Trader_Farmwelt3_m1:
+            - ^FLAG player shop_text:Birkenholz
+            - ^FLAG player shop_item:log1_2
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_log_3 in Trader_Farmwelt3_m1:
+            - ^FLAG player shop_text:Tropenholz
+            - ^FLAG player shop_item:log1_3
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_log2_0 in Trader_Farmwelt3_m1:
+            - ^FLAG player shop_text:Akazienholz
+            - ^FLAG player shop_item:log2_0
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_log2_1 in Trader_Farmwelt3_m1:
+            - ^FLAG player shop_text:Schwarzeichenholz
+            - ^FLAG player shop_item:log2_1
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks x in Trader_Farmwelt3_m1:
+            - ^determine cancelled
+        on player clicks BTN_Exit in Trader_Farmwelt3_m1:
+            - ^playsound sound:HORSE_SADDLE <player.location>
+            - ^inventory close d:<context.inventory>
+            - ^determine cancelled    
+#---------------------------[Holz]----------------------------------
+Trader_Farmwelt3:
+    type: assignment
+    debug: false
+    interact scripts:
+    - 20 Trader_Farmwelt3_0
+Trader_Farmwelt3_0:
+   type: interact
+   Steps:
+       1:
+         Click Trigger:
+           Script:
+           - ^playsound sound:HORSE_SADDLE <player.location>
+           - ^inventory open d:in@Trader_Farmwelt3_m1
+
+Trader_Farmwelt3_m1: 
+  type: inventory 
+  inventory: CHEST
+  title: <&3>Holzhändler
+  size: 9
+  definitions:
+    item1: i@s_log_0[quantity=64]
+    item2: i@s_log_1[quantity=64]
+    item3: i@s_log_2[quantity=64]
+    item4: i@s_log_3[quantity=64]
+    item5: i@s_log2_0[quantity=64]
+    item6: i@s_log2_1[quantity=64]
+    Exit: i@BTN_Exit
+  slots:
+    - "[item1] [item2] [item3] [item4] [item5] [item6] [x] [x] [Exit]"
+
+s_log_0:
+    type: item
+    material: LOG
+    display name: <white>Eichenholz
+    lore:
+    - <yellow>Kaufpreis: 8 GP
+    - <yellow>Verkaufspreis: 4 GP
+    - <gray>(für 64 Stück)
+s_log_1:
+    type: item
+    material: LOG:1
+    display name: <white>Fichtenholz
+    lore:
+    - <yellow>Kaufpreis: 8 GP
+    - <yellow>Verkaufspreis: 4 GP
+    - <gray>(für 64 Stück)
+log1_1:
+    type: item
+    material: LOG:1
+    display name: Fichtenholz    
+s_log_2:
+    type: item
+    material: LOG:2
+    display name: <white>Birkenholz
+    lore:
+    - <yellow>Kaufpreis: 8 GP
+    - <yellow>Verkaufspreis: 4 GP
+    - <gray>(für 64 Stück)
+log1_2:
+    type: item
+    material: LOG:2
+    display name: Birkenholz
+s_log_3:
+    type: item
+    material: LOG:3
+    display name: <white>Tropenholz
+    lore:
+    - <yellow>Kaufpreis: 8 GP
+    - <yellow>Verkaufspreis: 4 GP
+    - <gray>(für 64 Stück)
+log1_3:
+    type: item
+    material: LOG:3
+    display name: Tropenholz
+s_log2_0:
+    type: item
+    material: LOG_2
+    display name: <white>Akazienholz
+    lore:
+    - <yellow>Kaufpreis: 8 GP
+    - <yellow>Verkaufspreis: 4 GP
+    - <gray>(für 64 Stück)
+log2_0:
+    type: item
+    material: LOG_2
+    display name: Akazienholz
+s_log2_1:
+    type: item
+    material: LOG_2:1
+    display name: <white>Schwarzeichenholz
+    lore:
+    - <yellow>Kaufpreis: 8 GP
+    - <yellow>Verkaufspreis: 4 GP
+    - <gray>(für 64 Stück)
+log2_1:
+    type: item
+    material: LOG_2:1
+    display name: Schwarzeichenholz  

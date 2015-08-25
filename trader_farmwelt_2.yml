@@ -1,0 +1,169 @@
+Trader_Farmwelt2_Core:
+    type: world
+    debug: true
+    version: 1.02
+    author: cyborax
+    events:
+#---------------------------[Erze und Edelsteine]----------------------------------
+        on player clicks s_emerald in Trader_Farmwelt2_m1:
+            - FLAG player shop_text:Smaragd
+            - FLAG player shop_item:emerald
+            - FLAG player shop_qty:1
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_diamond in Trader_Farmwelt2_m1:
+            - FLAG player shop_text:Diamant
+            - FLAG player shop_item:diamond
+            - FLAG player shop_qty:1
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_gold_ingot in Trader_Farmwelt2_m1:
+            - FLAG player shop_text:Gold
+            - FLAG player shop_item:gold_ingot
+            - FLAG player shop_qty:1
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_iron_ingot in Trader_Farmwelt2_m1:
+            - FLAG player shop_text:Eisen
+            - FLAG player shop_item:iron_ingot
+            - FLAG player shop_qty:1
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_lapis in Trader_Farmwelt2_m1:
+            - FLAG player shop_text:Lapis Lazuli
+            - FLAG player shop_item:LAPIS_LAZULI
+            - FLAG player shop_qty:64
+            - FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_redstone in Trader_Farmwelt2_m1:
+            - FLAG player shop_text:Redstone
+            - FLAG player shop_item:REDSTONE
+            - FLAG player shop_qty:64
+            - FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_quartz in Trader_Farmwelt2_m1:
+            - FLAG player shop_text:Quartz
+            - FLAG player shop_item:QUARTZ
+            - FLAG player shop_qty:64
+            - FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_glowstone_dust in Trader_Farmwelt2_m1:
+            - FLAG player shop_text:Glowstonestaub
+            - FLAG player shop_item:GLOWSTONE_DUST
+            - FLAG player shop_qty:64
+            - FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks x in Trader_Farmwelt2_m1:
+            - ^determine cancelled
+        on player clicks BTN_Exit in Trader_Farmwelt2_m1:
+            - ^playsound sound:HORSE_SADDLE <player.location>
+            - ^inventory close d:<context.inventory>
+            - ^determine cancelled    
+#---------------------------[Erze und Edelsteine]----------------------------------
+Trader_Farmwelt2:
+    type: assignment
+    debug: false
+    interact scripts:
+    - 20 Trader_Farmwelt2_0
+Trader_Farmwelt2_0:
+   type: interact
+   Steps:
+       1:
+         Click Trigger:
+           Script:
+           - ^playsound sound:HORSE_SADDLE <player.location>
+           - ^inventory open d:in@Trader_Farmwelt2_m1
+
+Trader_Farmwelt2_m1: 
+  type: inventory 
+  inventory: CHEST
+  title: <&3>Erze und Edelsteine
+  size: 9
+  definitions:
+    item1: i@s_emerald
+    item2: i@s_diamond
+    item3: i@s_gold_ingot
+    item4: i@s_iron_ingot
+    item5: i@s_lapis[quantity=64]
+    item6: i@s_redstone[quantity=64]
+    item7: i@s_quartz[quantity=64]
+    item8: i@s_glowstone_dust[quantity=64]
+    Exit: i@BTN_Exit
+  slots:
+    - "[item1] [item2] [item3] [item4] [item5] [item6] [item7] [item8] [Exit]"
+s_emerald:
+    type: item
+    material: EMERALD
+    display name: <green>Smaragd
+    lore:
+    - <yellow>Kaufpreis: 150 GP
+    - <yellow>Verkaufspreis: 75 GP
+    - <gray>(für 1 Stück)    
+s_diamond:
+    type: item
+    material: DIAMOND
+    display name: <aqua>Diamant
+    lore:
+    - <yellow>Kaufpreis: 50 GP
+    - <yellow>Verkaufspreis: 25 GP
+    - <gray>(für 1 Stück)
+s_gold_ingot:
+    type: item
+    material: GOLD_INGOT
+    display name: <gold>Gold
+    lore:
+    - <yellow>Kaufpreis: 25 GP
+    - <yellow>Verkaufspreis: 12 GP
+    - <gray>(für 1 Stück)
+s_iron_ingot:
+    type: item
+    material: IRON_INGOT
+    display name: <gray>Eisen
+    lore:
+    - <yellow>Kaufpreis: 10 GP
+    - <yellow>Verkaufspreis: 5 GP
+    - <gray>(für 1 Stück)
+s_quartz:
+    type: item
+    material: QUARTZ
+    display name: <White>Quartz
+    lore:
+    - <yellow>Kaufpreis: 50 GP
+    - <yellow>Verkaufspreis: 10 GP
+    - <gray>(für 64 Stück)
+s_quartz_block:
+    type: item
+    material: QUARTZ_BLOCK
+    display name: <White>Quartz Block
+    lore:
+    - <yellow>Kaufpreis: 200 GP
+    - <yellow>Verkaufspreis: 40 GP
+    - <gray>(für 64 Stück)
+s_lapis:
+    type: item
+    material: LAPIS_LAZULI
+    display name: <blue>Lapis Lazuli
+    lore:
+    - <yellow>Kaufpreis: 25 GP
+    - <yellow>Verkaufspreis: 5 GP
+    - <gray>(für 64 Stück)
+s_redstone:
+    type: item
+    material: REDSTONE
+    display name: <red>Redstone
+    lore:
+    - <yellow>Kaufpreis: 25 GP
+    - <yellow>Verkaufspreis: 5 GP
+    - <gray>(für 64 Stück)
+s_glowstone_dust:
+    type: item
+    material: GLOWSTONE_DUST
+    display name: <red>Leutsteinstaub
+    lore:
+    - <yellow>Kaufpreis: 30 GP
+    - <yellow>Verkaufspreis: 6 GP
+    - <gray>(für 64 Stück)

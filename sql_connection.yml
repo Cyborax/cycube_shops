@@ -1,0 +1,9 @@
+sql_connection:
+    type: world
+    debug: false
+    version: 1.20
+    sql_connection_str: connect:123.123.123.123:3306/minecraft username:minecraft password:Birnbaum2015
+    events:
+        on player clicks sql_connection:
+            - ^determine cancelled
+ 

@@ -1,0 +1,133 @@
+Trader_Farmwelt1_Core:
+    type: world
+    debug: true
+    version: 1.02
+    author: cyborax
+    events:
+#---------------------------[Materialien]----------------------------------
+        on player clicks s_dirt in Trader_Farmwelt1_m1:
+            - ^FLAG player shop_text:Erde
+            - ^FLAG player shop_item:dirt
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_gravel in Trader_Farmwelt1_m1:
+            - ^FLAG player shop_text:Kies
+            - ^FLAG player shop_item:gravel
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_cobble in Trader_Farmwelt1_m1:
+            - ^FLAG player shop_text:Bruchstein
+            - ^FLAG player shop_item:cobblestone
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true            
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - ^determine cancelled
+        on player clicks s_stone in Trader_Farmwelt1_m1:
+            - ^FLAG player shop_text:Stein
+            - ^FLAG player shop_item:stone
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_stonebrick in Trader_Farmwelt1_m1:
+            - ^FLAG player shop_text:Steinziegel
+            - ^FLAG player shop_item:smooth_brick
+            - ^FLAG player shop_qty:64
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks s_clay in Trader_Farmwelt1_m1:
+            - ^FLAG player shop_text:Tonblock
+            - ^FLAG player shop_item:clay
+            - ^FLAG player shop_qty:32
+            - ^FLAG player shop_stackprice:true
+            - ^inject s@Core_ShopLogic p:shop_logic
+            - determine cancelled
+        on player clicks x in Trader_Farmwelt1_m1:
+            - ^determine cancelled
+        on player clicks BTN_Exit in Trader_Farmwelt1_m1:
+            - ^playsound sound:HORSE_SADDLE <player.location>
+            - ^inventory close d:<context.inventory>
+            - ^determine cancelled    
+#---------------------------[Materialien]----------------------------------
+Trader_Farmwelt1:
+    type: assignment
+    debug: false
+    interact scripts:
+    - 20 Trader_Farmwelt1_0
+Trader_Farmwelt1_0:
+   type: interact
+   Steps:
+       1:
+         Click Trigger:
+           Script:
+           - ^playsound sound:HORSE_SADDLE <player.location>
+           - ^inventory open d:in@Trader_Farmwelt1_m1
+
+Trader_Farmwelt1_m1: 
+  type: inventory 
+  inventory: CHEST
+  title: <&3>Materialien
+  size: 9
+  definitions:
+    item1: i@s_dirt[quantity=64]
+    item2: i@s_gravel[quantity=64]
+    item3: i@s_cobble[quantity=64]
+    item4: i@s_stone[quantity=64]
+    item5: i@s_stonebrick[quantity=64]
+    item6: i@s_clay[quantity=32]
+    Exit: i@BTN_Exit
+  slots:
+    - "[item1] [item2] [item3] [item4] [item5] [item6] [x] [x] [Exit]"
+s_stonebrick:
+    type: item
+    material: SMOOTH_BRICK
+    display name: <gray>Steinziegel
+    lore:
+    - <yellow>Kaufpreis: 12 GP
+    - <yellow>Verkaufspreis: 6 GP
+    - <gray>(für 64 Stück)
+s_stone:
+    type: item
+    material: STONE
+    display name: <gray>Stein
+    lore:
+    - <yellow>Kaufpreis: 10 GP
+    - <yellow>Verkaufspreis: 4 GP
+    - <gray>(für 64 Stück)
+s_cobble:
+    type: item
+    material: COBBLESTONE
+    display name: <gray>Bruchstein
+    lore:
+    - <yellow>Kaufpreis: 6 GP
+    - <yellow>Verkaufspreis: 1 GP
+    - <gray>(für 64 Stück)
+s_gravel:
+    type: item
+    material: GRAVEL
+    display name: <gray>Kies
+    lore:
+    - <yellow>Kaufpreis: 8 GP
+    - <yellow>Verkaufspreis: 4 GP
+    - <gray>(für 64 Stück)
+s_dirt:
+    type: item
+    material: DIRT
+    display name: <gray>Erde
+    lore:
+    - <yellow>Kaufpreis: 2 GP
+    - <yellow>Verkaufspreis: 0,2 GP
+    - <gray>(für 64 Stück)
+s_clay:
+    type: item
+    material: CLAY
+    display name: <gray>Tonblock
+    lore:
+    - <yellow>Kaufpreis: 12 GP
+    - <yellow>Verkaufspreis: 6 GP
+    - <gray>(für 32 Stück)    

@@ -1,0 +1,254 @@
+Core_ShopLogic:
+    type: world
+    debug: false
+    version: 1.20
+    money_prefix: Goldpfoten
+    message_money: <red>Du hast nicht genügend <gold>Goldpfoten
+    message_notenough: <red>Du hast nicht genügend Items
+    message_inventory_full: <red>Dein Inventar ist voll
+    
+    shop_wheat_vk: 8
+    shop_wheat_ek: 5
+    shop_hay_block_vk: 60
+    shop_hay_block_ek: 49
+    shop_carrot_item_vk: 35
+    shop_carrot_item_ek: 25
+    shop_potato_item_vk: 35
+    shop_potato_item_ek: 25
+    shop_melon_block_vk: 45
+    shop_melon_block_ek: 35
+    shop_pumpkin_vk: 45
+    shop_pumpkin_ek: 35
+    shop_melon_vk: 45
+    shop_melon_ek: 35
+    
+    shop_smooth_brick_vk: 12
+    shop_smooth_brick_ek: 6
+    shop_stone_vk: 10
+    shop_stone_ek: 4
+    shop_cobblestone_vk: 6
+    shop_cobblestone_ek: 1
+    shop_gravel_vk: 8
+    shop_gravel_ek: 4
+    shop_dirt_vk: 2
+    shop_dirt_ek: 0.2
+    shop_clay_vk: 12
+    shop_clay_ek: 6
+    
+    shop_emerald_vk: 100
+    shop_emerald_ek: 50
+    shop_diamond_vk: 50
+    shop_diamond_ek: 25
+    shop_gold_ingot_vk: 25
+    shop_gold_ingot_ek: 12
+    shop_iron_ingot_vk: 10
+    shop_iron_ingot_ek: 5
+    shop_lapis_lazuli_vk: 25
+    shop_lapis_lazuli_ek: 5
+    shop_redstone_vk: 25
+    shop_redstone_ek: 5
+    shop_glowstone_dust_vk: 30
+    shop_glowstone_dust_ek: 6
+    shop_quartz_vk: 50
+    shop_quartz_ek: 10
+    
+    shop_log_vk: 8
+    shop_log_ek: 4
+    shop_log1_1_vk: 8
+    shop_log1_1_ek: 4
+    shop_log1_2_vk: 8
+    shop_log1_2_ek: 4
+    shop_log1_3_vk: 8
+    shop_log1_3_ek: 4
+    shop_log2_0_vk: 8
+    shop_log2_0_ek: 4
+    shop_log2_1_vk: 8
+    shop_log2_1_ek: 4
+    
+    xpshop_EXP_BOTTLE_vk: 0.5
+    xpshop_EXP_BOTTLE32_vk: 15
+    xpshop_EXP_BOTTLE64_vk: 25
+    xpshop_BREAD_vk: 15
+    xpshop_book_effIV_vk: 50
+    events:
+        on player clicks shop_m_blocks_999 in Trader_m1:       
+            - ^determine cancelled
+    shop_logic:
+    - ^if <context.click> == LEFT {
+      - ^if <player.flag[shop_qty]> == null {
+        - ^FLAG player shop_qty:1
+      }
+      - ^inject locally shop_buy_item
+    } else if <context.click> == SHIFT_LEFT {
+      - ^if <player.flag[shop_stackprice]> != true {
+        - ^FLAG player shop_qty:64
+        - ^inject locally shop_buy_item
+      } else {
+        - ^inject locally shop_buy_item
+      }
+    }
+    - ^if <context.click> == RIGHT {
+      - ^if <player.flag[shop_qty]> == null {
+        - ^FLAG player shop_qty:1
+      }
+      - ^inject locally shop_sell_item
+    } else if <context.click> == SHIFT_RIGHT {
+      - ^if <player.flag[shop_stackprice]> == true {
+        - ^inject locally shop_sell_item
+      } else {
+        - ^if <player.inventory.quantity[<player.flag[shop_item]>]> < 64 {
+          - ^FLAG player shop_qty:<player.inventory.quantity[<player.flag[shop_item]>]>
+          - ^inject locally shop_sell_item
+        } else {
+          - ^FLAG player shop_qty:64
+          - ^inject locally shop_sell_item
+        }
+      }
+    }
+    shop_sqllogic:
+    - ^if <context.click> == LEFT {
+      - ^if <player.flag[shop_qty]> == null {
+        - ^FLAG player shop_qty:1
+      }
+      - ^inject locally shop_buy_item
+    } else if <context.click> == SHIFT_LEFT {
+      - ^if <player.flag[shop_stackprice]> != true {
+        - ^FLAG player shop_qty:64
+        - ^inject locally shop_buy_item
+      } else {
+        - ^inject locally shop_buy_item
+      }
+    }
+    - ^if <context.click> == RIGHT {
+      - ^if <player.flag[shop_qty]> == null {
+        - ^FLAG player shop_qty:1
+      }
+      - ^inject locally shop_sell_item
+    } else if <context.click> == SHIFT_RIGHT {
+      - ^if <player.flag[shop_stackprice]> == true {
+        - ^inject locally shop_sell_item
+      } else {
+        - ^if <player.inventory.quantity[<player.flag[shop_item]>]> < 64 {
+          - ^FLAG player shop_qty:<player.inventory.quantity[<player.flag[shop_item]>]>
+          - ^inject locally shop_sell_item
+        } else {
+          - ^FLAG player shop_qty:64
+          - ^inject locally shop_sell_item
+        }
+      }
+    }
+    shop_xplogic:
+    - ^if <context.click> == LEFT {
+      - ^if <player.flag[shop_qty]> == null {
+        - ^FLAG player shop_qty:1
+      }
+      - ^inject locally shop_xpbuy
+    } else if <context.click> == SHIFT_LEFT {
+      - ^narrate "<red>Es können keine Stacks gekauft werden."
+    }
+    - ^if <context.click> == RIGHT {
+      - ^narrate "<red>kein Verkauf möglich."
+    }
+    shop_xpbuy:
+    - ^if <player.inventory.can_fit[<player.flag[shop_item]>].quantity[<player.flag[shop_qty]>]> {
+      - ^if <player.flag[shop_stackprice]> == true {
+        - ^FLAG player shop_price:<script.yaml_key[xpshop_<player.flag[shop_item]>_vk]>
+      } else {
+        - ^FLAG player shop_price:<m:<script.yaml_key[xpshop_<player.flag[shop_item]>_vk]>*<player.flag[shop_qty]>>
+      }
+      - ^if <player.xp.level> >= <player.flag[shop_price]> {
+        - experience take level <player.flag[shop_price]>
+        - ^give <player.flag[shop_item]> qty:<player.flag[shop_qty]>
+        - ^playsound sound:DIG_STONE <player.location>                 
+        - ^narrate "Du hast <player.flag[shop_qty]> <aqua><player.flag[shop_text]><white> für <green><player.flag[shop_price]> XP-Level <red>gekauft!"
+        - ^FLAG player shop_text:!
+        - ^FLAG player shop_item:!
+        - ^FLAG player shop_qty:!
+        - ^FLAG player shop_price:!
+        - ^FLAG player shop_stackprice:!
+      } else {
+        - ^narrate "<red>Du hast nicht genügend <green>XP-Level"
+        - ^FLAG player shop_text:!
+        - ^FLAG player shop_item:!
+        - ^FLAG player shop_qty:!
+        - ^FLAG player shop_price:!
+        - ^FLAG player shop_stackprice:!
+      }
+    }
+    shop_buy_item:
+    - ^if <player.inventory.can_fit[<player.flag[shop_item]>].quantity[<player.flag[shop_qty]>]> {
+      - ^if <player.flag[shop_stackprice]> == true {
+        - ^FLAG player shop_price:<script.yaml_key[shop_<player.flag[shop_item]>_vk]>
+      } else {
+        - ^FLAG player shop_price:<m:<script.yaml_key[shop_<player.flag[shop_item]>_vk]>*<player.flag[shop_qty]>>
+      }
+      - ^if <player.money> >= <player.flag[shop_price]> {
+        - ^take money qty:<player.flag[shop_price]> 
+        - ^give <player.flag[shop_item]> qty:<player.flag[shop_qty]>
+        - ^playsound sound:DIG_STONE <player.location>                 
+        - ^narrate "Du hast <player.flag[shop_qty]> <aqua><player.flag[shop_text]><white> für <gold><player.flag[shop_price]> <script.yaml_key[money_prefix]> <red>gekauft!"
+        - ^FLAG player shop_text:!
+        - ^FLAG player shop_item:!
+        - ^FLAG player shop_qty:!
+        - ^FLAG player shop_price:!
+        - ^FLAG player shop_stackprice:!
+      } else {
+        - ^narrate "<red>Du hast nicht genügend <gold><script.yaml_key[money_prefix]>"
+        - ^FLAG player shop_text:!
+        - ^FLAG player shop_item:!
+        - ^FLAG player shop_qty:!
+        - ^FLAG player shop_price:!
+        - ^FLAG player shop_stackprice:!
+      }
+    } else {
+      - ^narrate "<red>Dein Inventar ist voll"
+      - ^inventory close d:<context.inventory>
+    }
+    shop_sell_item:
+    - ^if <player.inventory.contains[<player.flag[shop_item]>].qty[<player.flag[shop_qty]>]> {
+      - ^if <player.flag[shop_stackprice]> == true {
+        - ^FLAG player shop_price:<script.yaml_key[shop_<player.flag[shop_item]>_ek]>
+      } else {
+        - ^FLAG player shop_price:<m:<script.yaml_key[shop_<player.flag[shop_item]>_ek]>*<player.flag[shop_qty]>>
+      }
+      - ^take <player.flag[shop_item]> qty:<player.flag[shop_qty]>
+      - ^give money qty:<player.flag[shop_price]>
+      - ^playsound sound:DIG_WOOD <player.location>
+      - ^narrate "Du hast <player.flag[shop_qty]> <aqua><player.flag[shop_text]><white> für <gold><player.flag[shop_price]> <script.yaml_key[money_prefix]> <green>verkauft!"
+      - ^FLAG player shop_text:!
+      - ^FLAG player shop_item:!
+      - ^FLAG player shop_qty:!
+      - ^FLAG player shop_price:!
+      - ^FLAG player shop_stackprice:!
+    } else {
+      - ^narrate "<red>Du hast nicht genügend <white><player.flag[shop_text]>"
+      - ^FLAG player shop_text:!
+      - ^FLAG player shop_item:!
+      - ^FLAG player shop_qty:!
+      - ^FLAG player shop_price:!
+      - ^FLAG player shop_stackprice:!
+    }
+
+shop_sql_counter:
+    type: task
+    debug: false    
+    script:
+      - ^inject s@sql_connection
+      - ^define uuid <util.random.uuid>
+      - ~sql id:%uuid% <script.yaml_key[sql_connection_str]>
+      - sql id:%uuid% "query:SELECT counter FROM denizen_farmwelt_counter WHERE shop_item='<player.flag[shop_item]>' LIMIT 0,1;" save:si_count01
+      - define new_sqlvalue <m:(<player.flag[shop_qty]>+<entry[si_count01].result>)>
+      - sql id:%uuid% "update:DELETE FROM denizen_farmwelt_counter WHERE shop_item = '<player.flag[shop_item]>';"
+      - sql id:%uuid% "update:INSERT INTO denizen_farmwelt_counter VALUES (null,'<player.flag[shop_item]>','<dev[new_sqlvalue]>','farmworld',NOW());"
+      - sql id:%uuid% "update:INSERT INTO denizen_trader VALUES (null,'<player.flag[shop_item]>','<dev[new_sqlvalue]>','goldpfote',NOW());"
+      - sql disconnect id:%uuid%
+BTN_Exit:
+    type: item
+    material: BARRIER
+    display name: <green>Exit
+    lore:
+    - <yellow>Schließt das Menü.
+x:
+    type: item
+    material: 160
+    display name: leer    
